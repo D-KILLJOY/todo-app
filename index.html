@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+		<link
+			rel="icon"
+			type="image/png"
+			sizes="32x32"
+			href="./images/favicon-32x32.png"
+		/>
+		<link rel="stylesheet" href="styles.css" />
+
+		<title>Frontend Mentor | Todo app</title>
+	</head>
+	<body>
+		<header class="header">
+			<nav class="header-nav container">
+				<h1 class="logo">TODO</h1>
+				<div class="theme">
+					<img src="./images/icon-sun.svg" class="light-btn" alt="" />
+					<img src="./images/icon-moon.svg" class="dark-btn" alt="" />
+				</div>
+			</nav>
+		</header>
+		<main class="main container">
+			<section class="input-con">
+				<input
+					type="text"
+					placeholder="Create a new todo..."
+					class="todo-input"
+				/>
+				<div class="input-circle"></div>
+			</section>
+
+			<section class="todo-main">
+				<div class="todo-list">
+					<ul class="todo-ul">
+						<li class="list-item done">
+							<span class="check"
+								><img src="./images/icon-check.svg" alt=""
+							/></span>
+							<span class="text">Complete online JavaScript course</span>
+							<span class="cross"
+								><img src="./images/icon-cross.svg" alt=""
+							/></span>
+						</li>
+						<li class="list-item">
+							<span class="check"
+								><img src="./images/icon-check.svg" alt=""
+							/></span>
+							<span class="text">Jog around the park 3x</span>
+							<span class="cross"
+								><img src="./images/icon-cross.svg" alt=""
+							/></span>
+						</li>
+						<li class="list-item">
+							<span class="check"
+								><img src="./images/icon-check.svg" alt=""
+							/></span>
+							<span class="text">10 minutes meditation</span>
+							<span class="cross"
+								><img src="./images/icon-cross.svg" alt=""
+							/></span>
+						</li>
+						<li class="list-item">
+							<span class="check"
+								><img src="./images/icon-check.svg" alt=""
+							/></span>
+							<span class="text">Read for 1 hour</span>
+							<span class="cross"
+								><img src="./images/icon-cross.svg" alt=""
+							/></span>
+						</li>
+						<li class="list-item">
+							<span class="check"
+								><img src="./images/icon-check.svg" alt=""
+							/></span>
+							<span class="text">Pick up groceries</span>
+							<span class="cross"
+								><img src="./images/icon-cross.svg" alt=""
+							/></span>
+						</li>
+						<li class="list-item">
+							<span class="check"
+								><img src="./images/icon-check.svg" alt=""
+							/></span>
+							<span class="text">Complete Todo App on Frontend Mentor</span>
+							<span class="cross"
+								><img src="./images/icon-cross.svg" alt=""
+							/></span>
+						</li>
+					</ul>
+					<div class="details">
+						<p><span class="item-count">5</span> items left</p>
+						<section class="filter-sec bg-only">
+							<ul class="filter">
+								<li class="filter-nav all selected">All</li>
+								<li class="filter-nav active">Active</li>
+								<li class="filter-nav completed">Completed</li>
+							</ul>
+						</section>
+						<p class="clear">Clear completed</p>
+					</div>
+				</div>
+			</section>
+
+			<section class="filter-sec sm-only">
+				<ul class="filter">
+					<li value="all" class="filter-nav all selected">All</li>
+					<li value="active" class="filter-nav active">Active</li>
+					<li value="completed" class="filter-nav completed">Completed</li>
+				</ul>
+			</section>
+		</main>
+
+		<p class="d-and-g">Drag and drop to reorder list</p>
+
+		<!-- Add dynamic number -->
+
+		<div class="attribution">
+			Challenge by
+			<a href="https://www.frontendmentor.io?ref=challenge" target="_blank"
+				>Frontend Mentor</a
+			>. Coded by
+			<a href="https://linktr.ee/didiauche" target="_blank">Didia Uchenna</a>.
+		</div>
+		<script src="app.js"></script>
+	</body>
+</html>

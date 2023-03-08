@@ -5,6 +5,7 @@
 	padding: 0;
 	box-sizing: border-box;
 	font-family: var(--font);
+	transition: 1s;
 }
 
 body {
@@ -161,6 +162,13 @@ img {
 
 .done .check img {
 	opacity: 1;
+}
+
+.empty-list {
+	font-size: 1.4rem;
+	text-align: center;
+	padding: 2rem 1.8rem 2.8rem 2rem;
+	border-bottom: 1px solid var(--color-three);
 }
 
 .list-item,

@@ -5,8 +5,7 @@ const lightBtn = document.querySelector(".light-btn");
 const darkBtn = document.querySelector(".dark-btn");
 
 const todoInput = document.querySelector(".todo-input");
-const checkBtn = document.querySelectorAll(".check");
-const deleteBtn = document.querySelectorAll(".cross");
+const itemCount = document.querySelector(".item-count");
 
 const toDo = document.querySelector(".todo-ul");
 
@@ -14,13 +13,13 @@ const todoItem = document.querySelectorAll(".list-item");
 
 const filterBtn = document.querySelectorAll(".filter-nav");
 
-const todoItems = [];
+let todoItems = [];
+
+todoInput.value = "";
 
 //! THEME TOGGLE
 
 let selectedTheme = localStorage.getItem("themeSelection");
-
-todoInput.value = "";
 
 if (selectedTheme) {
 	body.classList.add("dark-theme");
@@ -46,96 +45,138 @@ themeBtn.addEventListener("click", () => {
 
 //! THEME TOGGLE
 
+const getFromLocalStorage = () => {
+	let itemsFromLocalStorage = JSON.parse(localStorage.getItem("todoItems"));
+
+	if (itemsFromLocalStorage) {
+		todoItems = [];
+
+		for (let i = 0; i < itemsFromLocalStorage.length; i++) {
+			todoItems.push(itemsFromLocalStorage[i]);
+		}
+	}
+	display();
+	dispItemCount();
+
+	console.log(todoItems);
+};
+
 todoInput.addEventListener("keydown", (e) => {
+	let todoInVal = todoInput.value;
 	if (e.key == "Enter") {
 		if (todoInput.value.trim(" ").length === 0) {
-			alert("TODO IS EMPTY");
+			alert("CAN'T ADD EMPTY SPACES TO LIST ");
 		} else {
-			todoItems.push(todoInput.value);
-			todoInput.value = "";
+			todoItems.push(todoInVal);
 			todoItems.push(
 				localStorage.setItem("todoItems", JSON.stringify(todoItems))
 			);
-
-			display();
+			todoInput.value = "";
 		}
+		getFromLocalStorage();
 	}
 });
+
+function spanBtns(item, index) {
+	const checkBtn = item.querySelector(".check");
+	const crossBtn = item.querySelector(".cross");
+
+	checkBtn.addEventListener("click", () => {
+		if (item.classList.contains("done")) {
+			item.classList.remove("done");
+		} else {
+			item.classList.add("done");
+		}
+	});
+	//! create function that removes item from array
+
+	crossBtn.addEventListener("click", () => {
+		if (!item.classList.contains("done")) {
+			if (
+				confirm(
+					`this item has not been marked done do you still want to delete`
+				)
+			) {
+				delItem();
+			}
+		} else {
+			delItem();
+		}
+	});
+
+	const delItem = () => {
+		todoItems.splice(index, 1);
+		localStorage.setItem("todoItems", JSON.stringify(todoItems));
+
+		// console.log(`Cross button clicked ${index}`);
+		getFromLocalStorage();
+	};
+}
 
 const display = () => {
 	for (let i = 0; i < todoItems.length; i++) {
-		item = document.createElement("li");
-		item.classList.add("list-item");
-		checkSpan = document.createElement("span");
-		checkSpan.classList.add("check");
-
-		checkSpan.innerHTML = `<img src="./images/icon-check.svg" alt=""
-							/>`;
-		item.innerHTML = `
-							
-							<span class="text">${todoItems[i]}</span>
-							<span class="cross"
-								><img src="./images/icon-cross.svg" alt=""
-							/></span>
-						`;
-		item.appendChild(checkSpan);
-		toDo.appendChild(item);
-
-		console.log(checkBtn);
+		createItemFromLocalStorage(todoItems, i);
+		dispItemCount();
 	}
 };
 
-checkBtn.forEach((i) => {
-	i.addEventListener("click", () => {
-		let parent = i.parentNode;
-		if (parent.classList.contains("done")) {
-			parent.classList.remove("done");
-		} else {
-			parent.classList.add("done");
-		}
-	});
-});
+const createItemFromLocalStorage = (todoItems, i) => {
+	const item = document.createElement("li");
+	item.classList.add("list-item");
 
-deleteBtn.forEach((i) => {
-	i.addEventListener("click", () => {
-		console.log(i);
-		// todoItems.splice();
-	});
-});
+	item.innerHTML = `<span class="check"><img src="./images/icon-check.svg" alt="" /></span>
+              <span class="text">${todoItems[i]}</span>
+              <span class="cross"
+                ><img src="./images/icon-cross.svg" alt=""
+              /></span>
+            `;
+	toDo.appendChild(item);
+	spanBtns(item, i);
+};
 
-//! create function that removes item from array
+const dispItemCount = () => {
+	const listStat = document.querySelector(".empty-list");
+	if (todoItems.length == 0) {
+		itemCount.textContent = `${todoItems.length} item left`;
+		listStat.style.display = "block";
+	} else if (todoItems.length === 1) {
+		itemCount.textContent = `${todoItems.length} item left`;
+		listStat.style.display = "none";
 
-let itemsFromLocalStorage = JSON.parse(localStorage.getItem("todoItems"));
-
-if (itemsFromLocalStorage) {
-	for (let i = 0; i < itemsFromLocalStorage.length; i++) {
-		todoItems.push(itemsFromLocalStorage[i]);
+		console.log(todoItems.length);
+	} else if (todoItems.length > 1) {
+		itemCount.textContent = `${todoItems.length} items left`;
+		listStat.style.display = "none";
 	}
+};
 
-	display();
-}
+getFromLocalStorage();
 
 //! fix code below
-
-filterBtn.forEach((i) => {
-	i.addEventListener("click", () => {
-		filterBtn.forEach((e) => {
-			e.classList.remove("selected");
-		});
-		if (i.classList.contains("all")) {
-			console.log("show all");
-			i.classList.add("selected");
-		} else if (i.classList.contains("active")) {
-			console.log("active");
-			i.classList.add("selected");
-		} else if (i.classList.contains("completed")) {
-			console.log("completed");
-			i.classList.add("selected");
-		}
-	});
-});
-
+// const filterFunc = (item) => {
+// 	const done = item.classList.contains("done");
+// 	filterBtn.forEach((i) => {
+// 		i.addEventListener("click", () => {
+// 			filterBtn.forEach((e) => {
+// 				e.classList.remove("selected");
+// 			});
+// 			if (i.classList.contains("all")) {
+// 				console.log("show all");
+// 				i.classList.add("selected");
+// 			} else if (i.classList.contains("active")) {
+// 				console.log("active");
+// 				i.classList.add("selected");
+// 			} else if (i.classList.contains("completed")) {
+// 				console.log("completed");
+// 				i.classList.add("selected");
+// 				if (done) {
+// 					item.style.display = "flex";
+// 				} else {
+// 					item.style.display = "none";
+// 				}
+// 			}
+// 			display();
+// 		});
+// 	});
+// };
 //! fix code above
-
-console.log(checkBtn);
-localStorage.clear();

@@ -5,13 +5,13 @@
 	padding: 0;
 	box-sizing: border-box;
 	font-family: var(--font);
-	transition: 1s;
 }
 
 body {
 	width: 100%;
 	min-height: 100vh;
 	background-color: var(--background-color-one);
+	transition: 1s;
 }
 
 :root {
@@ -73,6 +73,7 @@ img {
 	height: 35vh;
 	width: 100%;
 	background: url(./images/bg-mobile-light.jpg) center/cover no-repeat;
+	transition: 1s;
 }
 
 .header-nav {

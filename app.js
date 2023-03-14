@@ -68,12 +68,14 @@ todoInput.addEventListener("keydown", (e) => {
 			alert("CAN'T ADD EMPTY SPACES TO LIST ");
 		} else {
 			todoItems.push(todoInVal);
-			todoItems.push(
-				localStorage.setItem("todoItems", JSON.stringify(todoItems))
-			);
+
+			localStorage.setItem("todoItems", JSON.stringify(todoItems));
+
+			createItemfromInput(todoInVal, todoItems.length - 1);
 			todoInput.value = "";
 		}
-		getFromLocalStorage();
+		dispItemCount();
+		console.log(todoItems);
 	}
 });
 
@@ -106,21 +108,34 @@ function spanBtns(item, index) {
 
 	const delItem = () => {
 		todoItems.splice(index, 1);
+		item.remove();
 		localStorage.setItem("todoItems", JSON.stringify(todoItems));
-
-		// console.log(`Cross button clicked ${index}`);
-		getFromLocalStorage();
+		dispItemCount();
 	};
 }
 
 const display = () => {
 	for (let i = 0; i < todoItems.length; i++) {
-		createItemFromLocalStorage(todoItems, i);
+		createItem(todoItems, i);
 		dispItemCount();
 	}
 };
 
-const createItemFromLocalStorage = (todoItems, i) => {
+const createItemfromInput = (todoIn, i) => {
+	const item = document.createElement("li");
+	item.classList.add("list-item");
+
+	item.innerHTML = `<span class="check"><img src="./images/icon-check.svg" alt="" /></span>
+              <span class="text">${todoIn}</span>
+              <span class="cross"
+                ><img src="./images/icon-cross.svg" alt=""
+              /></span>
+            `;
+
+	toDo.appendChild(item);
+	spanBtns(item, i);
+};
+const createItem = (todoItems, i) => {
 	const item = document.createElement("li");
 	item.classList.add("list-item");
 
@@ -130,8 +145,10 @@ const createItemFromLocalStorage = (todoItems, i) => {
                 ><img src="./images/icon-cross.svg" alt=""
               /></span>
             `;
+
 	toDo.appendChild(item);
 	spanBtns(item, i);
+	// filterFunc(item);
 };
 
 const dispItemCount = () => {
@@ -152,7 +169,7 @@ const dispItemCount = () => {
 
 getFromLocalStorage();
 
-//! fix code below
+// //! fix code below
 // const filterFunc = (item) => {
 // 	const done = item.classList.contains("done");
 // 	filterBtn.forEach((i) => {
@@ -175,8 +192,8 @@ getFromLocalStorage();
 // 					item.style.display = "none";
 // 				}
 // 			}
-// 			display();
+// 			getFromLocalStorage();
 // 		});
 // 	});
 // };
-//! fix code above
+// //! fix code above
